@@ -18,14 +18,39 @@ import java.util.logging.Logger;
  */
 public class JavaCodeGenertor extends PckLayerGenerator {
 
+    public static final String ENTITY_VAR = "<$entVar>";
+    public static final String FLDNAME_1UPPER = "<$fldName1Upper>";
+    public static final String FLDNAME_VAR = "<$fldName>";
+    public static final String TYPEGET_VAR = "<$typeGet>";
+    public static final String JAVATYPE = "<$javaType>";
+    public static final String ZLOWERFLD = "<$lowerFld>";
+    public static final String STM_FILLENTITY = ENTITY_VAR + ".set" + FLDNAME_1UPPER + "(rs.get" + TYPEGET_VAR + "(\"" + FLDNAME_VAR + "\"));";
+    public static final String STM_ATTRENTITY = JAVATYPE + " " + ZLOWERFLD + ";";
+
     public JavaCodeGenertor(String owner, String packageName, String methodName, String entityName) {
         super(owner, packageName, methodName, entityName);
         buildLstArgs();
     }
+    
+    @Override
+    public String cnvtParamtDbType2LangParamType(String pDbType) {
+        String res;
+        if (pDbType.compareTo("CHAR") == 0
+                || pDbType.compareTo("VARCHAR2") == 0) {
+            res = "String";
+        } else if (pDbType.compareTo("NUMBER") == 0) {
+            res = "String";
+        } else if (pDbType.compareTo("DATE") == 0) {
+            res = "Date";
+        } else {
+            res = StringUtils.EMPTYSTR;
+        }
+        return res;
+    }
 
     @Override
     public void genEntityCode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
     }
 
     @Override
@@ -60,7 +85,7 @@ public class JavaCodeGenertor extends PckLayerGenerator {
         res = pstr.toLowerCase();
         res = StringUtils.InitAllCaps(res);
         res = res.replace("_", "");
-        res = res.substring(0, 1).toLowerCase()+res.substring(1);
+        res = res.substring(0, 1).toLowerCase() + res.substring(1);
 
         return res;
     }
@@ -72,18 +97,17 @@ public class JavaCodeGenertor extends PckLayerGenerator {
         return res;
     }
 
-    private String CnvTypeOracle2Java(String oracleType) {
-        String res = "";
-        if (oracleType.compareTo("VARCHAR") == 0 ||
-            oracleType.compareTo("VARCHAR2") == 0) {
+    
+
+    @Override
+    public String cnvTypeOracle2Java(String oracleType) {
+        String res = StringUtils.EMPTYSTR;
+        if (oracleType.compareTo("VARCHAR") == 0
+                || oracleType.compareTo("VARCHAR2") == 0) {
             res = "String";
-        }
-
-        if (oracleType.compareTo("NUMBER") == 0) {
+        } else if (oracleType.compareTo("NUMBER") == 0) {
             res = "BigDecimal";
-        }
-
-        if (oracleType.compareTo("DATE") == 0) {
+        } else  if (oracleType.compareTo("DATE") == 0) {
             res = "Date";
         }
 
@@ -95,7 +119,7 @@ public class JavaCodeGenertor extends PckLayerGenerator {
         String scrap;
 
         for (DbArgsMetaBe dam : this.lstArgs) {
-            scrap = CnvTypeOracle2Java(dam.getDataType());
+            scrap = cnvTypeOracle2Java(dam.getDataType());
             res += (scrap + " ");
             scrap = varNameJavaStyle(dam.getArgName());
             res += (scrap + ";");
@@ -104,7 +128,7 @@ public class JavaCodeGenertor extends PckLayerGenerator {
     }
 
     public String invokeCallStr() {
-        String res = "";
+        String res = StringUtils.EMPTYSTR;
 
         res = this.getPackageName() + "."
                 + this.getMethodName();
@@ -120,7 +144,7 @@ public class JavaCodeGenertor extends PckLayerGenerator {
 
         for (DbArgsMetaBe dam : this.lstArgs) {
             varStr = varNameJavaStyle(dam.getArgName());
-            typeStr = CnvTypeOracle2Java(dam.getDataType());
+            typeStr = cnvTypeOracle2Java(dam.getDataType());
             res += "stm.set" + typeStr + "(" + Integer.toString(ind) + ", " + varStr + ");";
             ++ind;
         }

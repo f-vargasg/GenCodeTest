@@ -11,6 +11,8 @@ package com.fvgprinc.app.testgencode.utils;
  */
 public class StringUtils {
 
+    public static final String EMPTYSTR = "";
+    
     public static String InitAllCaps(String pStr) {
         // String message = "Ejecutar_rutina";
         // stores each characters to a char array

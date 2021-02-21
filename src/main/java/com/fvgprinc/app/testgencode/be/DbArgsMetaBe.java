@@ -10,7 +10,7 @@ package com.fvgprinc.app.testgencode.be;
  * @author garfi
  */
 public class DbArgsMetaBe {
-    
+
     private String owner;
     private int position;
     private String packageName;
@@ -18,6 +18,7 @@ public class DbArgsMetaBe {
     private String argName;
     private String dataType;
     private String inOut;
+    private boolean defaultValue;
 
     public String getOwner() {
         return owner;
@@ -75,8 +76,18 @@ public class DbArgsMetaBe {
         this.inOut = inOut;
     }
 
+    public boolean isDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(boolean defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+    
+    
+
     public DbArgsMetaBe(String owner, int position, String packageName, String method, String argName, String dataType,
-                      String inOut) {
+                      String inOut, boolean defaultValue) {
         this.owner = owner;
         this.position = position;
         this.packageName = packageName;
@@ -84,14 +95,15 @@ public class DbArgsMetaBe {
         this.argName = argName;
         this.dataType = dataType;
         this.inOut = inOut;
+        this.defaultValue = defaultValue;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
+
 }

@@ -23,7 +23,7 @@ public class DbSpMetaDataDl {
         ArrayList<DbArgsMetaBe> res = new ArrayList<>();
         String query
                 = "SELECT a.owner, a.position, a.package_name, a.object_name as method ,a.argument_name, \n"
-                + "a.data_type, a.in_out\n"
+                + "a.data_type, a.in_out, a.defaulted\n"
                 + "FROM all_arguments a\n"
                 + "WHERE  a.object_name = upper(?) AND \n"
                 + "a.package_name = upper(?)\n"
@@ -42,12 +42,16 @@ public class DbSpMetaDataDl {
                         rs.getString("method"),
                         rs.getString("argument_name"),
                         rs.getString("data_type"),
-                        rs.getString("in_out"));
+                        rs.getString("in_out"),
+                        (rs.getString ("defaulted").compareToIgnoreCase("Y") )==0);
+                        
                 res.add(argsMeta);
             }
         }
         return res;
     }
+    
+    
 
 
 /* 

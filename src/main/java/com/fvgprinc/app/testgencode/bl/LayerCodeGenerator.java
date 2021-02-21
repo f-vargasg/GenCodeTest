@@ -11,6 +11,10 @@ package com.fvgprinc.app.testgencode.bl;
  */
 interface LayerCodeGenerator {
    
+   public String cnvtParamtDbType2LangParamType(String pDbType);
+   
+   public String cnvTypeOracle2Java(String oracleType);
+    
    public void genEntityCode();
    
    public void genDataLayerCode();

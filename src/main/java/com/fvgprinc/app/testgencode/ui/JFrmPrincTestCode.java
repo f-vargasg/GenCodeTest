@@ -5,6 +5,11 @@
  */
 package com.fvgprinc.app.testgencode.ui;
 
+import com.fvgprinc.app.testgencode.bl.JavaCodeGenertor;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author garfi
@@ -16,6 +21,7 @@ public class JFrmPrincTestCode extends javax.swing.JFrame {
      */
     public JFrmPrincTestCode() {
         initComponents();
+        initMyComponents();
     }
 
     /**
@@ -27,14 +33,10 @@ public class JFrmPrincTestCode extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jPckNameFldTxt = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jMethodNameFldTxt = new javax.swing.JTextField();
-        jOwnerFldTxt = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jGenCodeBut = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel5 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jInvokerTxtFld = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jEntityTxtAr = new javax.swing.JTextArea();
@@ -44,16 +46,29 @@ public class JFrmPrincTestCode extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jBussinesLogicTxtAr = new javax.swing.JTextArea();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        jOwnerFldTxt = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jPckNameFldTxt = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jMethodNameFldTxt = new javax.swing.JTextField();
+        jGenCodeBut = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(800, 800));
 
-        jLabel1.setText("PackageName:");
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
-        jLabel2.setText("MethodName:");
+        jInvokerTxtFld.setColumns(20);
+        jInvokerTxtFld.setRows(5);
+        jScrollPane4.setViewportView(jInvokerTxtFld);
 
-        jLabel3.setText("Owner");
+        jPanel5.add(jScrollPane4, java.awt.BorderLayout.CENTER);
 
-        jGenCodeBut.setText("Generate Code");
+        jTabbedPane1.addTab("Invoker", jPanel5);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -63,7 +78,7 @@ public class JFrmPrincTestCode extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        jTabbedPane1.addTab("Entiddad", jPanel1);
+        jTabbedPane1.addTab("Entidad", jPanel1);
 
         jPanel2.setLayout(new java.awt.BorderLayout());
 
@@ -85,53 +100,99 @@ public class JFrmPrincTestCode extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Bussines Logic", jPanel3);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+        getContentPane().add(jTabbedPane1, java.awt.BorderLayout.CENTER);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jLabel4.setText("Language");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Java", "C#" }));
+
+        jLabel3.setText("Owner");
+
+        jLabel1.setText("PackageName:");
+
+        jLabel2.setText("MethodName:");
+
+        jGenCodeBut.setText("Generate Code");
+        jGenCodeBut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jGenCodeButActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(jGenCodeBut))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(49, 49, 49)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(64, 64, 64))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
                                     .addComponent(jLabel1)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel2))
-                                .addGap(35, 35, 35)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPckNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jOwnerFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jMethodNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jGenCodeBut))
-                        .addContainerGap(309, Short.MAX_VALUE))))
+                                    .addGap(25, 25, 25))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jOwnerFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPckNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jMethodNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(293, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
-                .addComponent(jGenCodeBut)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jOwnerFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jPckNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jPckNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jMethodNameFldTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jGenCodeBut)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        getContentPane().add(jPanel4, java.awt.BorderLayout.PAGE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jGenCodeButActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGenCodeButActionPerformed
+        
+        try {
+            JavaCodeGenertor codeGenertor = new JavaCodeGenertor(this.jOwnerFldTxt.getText(), jPckNameFldTxt.getText(), jMethodNameFldTxt.getText(),
+                    "Entity");
+            
+            jInvokerTxtFld.setText(codeGenertor.plSqlInvoker());
+        } catch (SQLException ex) {
+            Logger.getLogger(JFrmPrincTestCode.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jGenCodeButActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,21 +234,33 @@ public class JFrmPrincTestCode extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea jBussinesLogicTxtAr;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JTextArea jDataLayerTxtAr;
     private javax.swing.JTextArea jEntityTxtAr;
     private javax.swing.JButton jGenCodeBut;
+    private javax.swing.JTextArea jInvokerTxtFld;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField jMethodNameFldTxt;
     private javax.swing.JTextField jOwnerFldTxt;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JTextField jPckNameFldTxt;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
+
+    private void initMyComponents() {
+        jOwnerFldTxt.setText("Mytest");
+        jPckNameFldTxt.setText("OracleTest_pck");
+        jMethodNameFldTxt.setText("suma");
+    }
 }

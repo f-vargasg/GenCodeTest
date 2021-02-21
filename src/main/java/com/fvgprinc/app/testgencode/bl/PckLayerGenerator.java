@@ -7,6 +7,9 @@ package com.fvgprinc.app.testgencode.bl;
 
 import com.fvgprinc.app.testgencode.be.DbArgsMetaBe;
 import com.fvgprinc.app.testgencode.be.DbFldsMeta;
+import com.fvgprinc.app.testgencode.dl.DbSpMetaDataDl;
+import com.fvgprinc.app.testgencode.utils.StringUtils;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -15,12 +18,12 @@ import java.util.ArrayList;
  */
 public abstract class PckLayerGenerator implements LayerCodeGenerator {
 
-   private String owner;
-   
-   private String packageName;
-   
-   private String methodName;
-    
+    private String owner;
+
+    private String packageName;
+
+    private String methodName;
+
     private String entityCode;
 
     private String dataLayerCode;
@@ -28,7 +31,7 @@ public abstract class PckLayerGenerator implements LayerCodeGenerator {
     private String businesLogicCode;
 
     ArrayList<DbArgsMetaBe> lstArgs;
-    
+
     ArrayList<DbFldsMeta> lstDbMetaData;
 
     public String getOwner() {
@@ -54,7 +57,6 @@ public abstract class PckLayerGenerator implements LayerCodeGenerator {
     public void setMethodName(String methodName) {
         this.methodName = methodName;
     }
-   
 
     public String getEntityCode() {
         return entityCode;
@@ -95,25 +97,46 @@ public abstract class PckLayerGenerator implements LayerCodeGenerator {
     public void setLstArgs(ArrayList<DbArgsMetaBe> lstArgs) {
         this.lstArgs = lstArgs;
     }
-    
 
-    public PckLayerGenerator(String owner, String packageName, String methodName, 
-                             String entityName)  {
+    public PckLayerGenerator(String owner, String packageName, String methodName,
+            String entityName) {
         this.owner = owner;
         this.packageName = packageName;
         this.methodName = methodName;
         this.entityCode = entityName;
     }
-    
+
+    public String plSqlInvoker() throws SQLException {
+        String res ;
+        String trailer = StringUtils.EMPTYSTR;
+        boolean ft = true;
+
+        DbSpMetaDataDl dsmdd = new DbSpMetaDataDl();
+        res = this.packageName + "." + this.methodName;
+        ArrayList<DbArgsMetaBe> lst = dsmdd.loadParameters(this.owner, this.packageName, this.methodName);
+        for (DbArgsMetaBe dbArgsMetaBe : lst) {
+            if (ft) {
+                res += "(";
+                ft = false;
+            }
+            else {
+                res += ", " +  trailer;
+            }
+            res += (dbArgsMetaBe.getArgName() + " => " + dbArgsMetaBe.getArgName());
+            trailer =  " -- " + dbArgsMetaBe.getInOut() + " " +  dbArgsMetaBe.getDataType() + 
+                    " "  + (dbArgsMetaBe.isDefaultValue() ? "Default" : StringUtils.EMPTYSTR) + "\n";
+        }
+        res += (!ft ? "); " + trailer : StringUtils.EMPTYSTR);
+
+        return res;
+    }
+
     public abstract void buildLstArgs();
-    
 
     /*
         Construye dependiendo del lenguaje la lista de campos retornados
         por el paquete
-    */
+     */
     public abstract void buildLstLstDbMetaData();
-
-    
 
 }
